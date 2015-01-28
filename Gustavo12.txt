@@ -1,0 +1,513 @@
+Script started on Mon 17 Nov 2014 09:39:44 AM EST
+[?1034hbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ [Kbash-4.1$ uname -a
+Linux Zeus 2.6.32-431.20.5.el6.x86_64 #1 SMP Fri Jul 25 08:34:44 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+bash-4.1$ ls bin include Makefile obj src
+Makefile
+
+bin:
+Lab12
+
+include:
+Function1.h  Function3.h  Function5.h
+Function2.h  Function4.h  Lab12.h
+
+obj:
+Function1.o  Function3.o  Function5.o
+Function2.o  Function4.o  Lab12.o
+
+src:
+Function1.c  Function3.c  Function5.c
+Function2.c  Function4.c  Lab12.c
+bash-4.1$ cat Makefile
+#-----------------------------------------------------------------------------
+# Choose a compiler & its options
+#--------------------------------------------------------------------------
+
+CC   = gcc
+OPTS = -W -O3
+
+#--------------------------------------------------------------------------
+# Add the debug flag (based on the #ifndef in the source files)
+#--------------------------------------------------------------------------
+#DEBUG=-DNDEBUG
+
+#--------------------------------------------------------------------------
+# Add the names of the directories
+#--------------------------------------------------------------------------
+SRCDIR=./src
+OBJDIR=./obj
+INCDIR=./include
+BINDIR=./bin
+
+#--------------------------------------------------------------------
+# Add the rest of the source files. Don't forget to add the '\' character
+# to continue the line. You don't need it after the last source file
+#--------------------------------------------------------------------
+SRCS=$(SRCDIR)/Lab12.c \
+     $(SRCDIR)/Function1.c \
+     $(SRCDIR)/Function2.c \
+     $(SRCDIR)/Function3.c \
+     $(SRCDIR)/Function4.c \
+     $(SRCDIR)/Function5.c
+#--------------------------------------------------------------------
+# You don't need to edit the next few lines. They define other flags
+# used in the compilation of the source code
+#--------------------------------------------------------------------
+INCLUDE = $(addprefix -I,$(INCDIR))
+OBJS=${SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o}
+CFLAGS   = $(OPTS) $(INCLUDE) $(DEBUG)
+
+#--------------------------------------------------------------------
+# Add the name of the executable after the $(BINDIR)/
+#--------------------------------------------------------------------
+TARGET = $(BINDIR)/Lab12
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS) 
+	${CC} ${CFLAGS} -o $@ $(OBJS)
+
+$(OBJS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+
+#--------------------------------------------------------------------
+# Add a target named cleanall that will remove the object files as well
+# as the executable
+#--------------------------------------------------------------------
+
+TARGET = cleanall
+
+cleanall:
+	rm -f $(OBJDIR)/*.o $(BINDIR)/Lab12
+
+bash-4.1$ cd src
+bash-4.1$ c[Kls
+Function1.c  Function3.c  Function5.c
+Function2.c  Function4.c  Lab12.c
+bash-4.1$ cat Function1.c Function2.c Function3.c Function4. c Function5.c Lab12.c
+#include "Function1.h"
+#include "Lab12.h"
+
+void Function1()
+{
+int i = 0;
+int *p = (int *) malloc(sizeof(int) * ARRAY_SIZE);
+if (p == NULL)
+{
+	fprintf(stderr, "function1(): Error allocating p\n");
+	exit(1);
+}
+
+printf("In function1()...\n");
+
+for (i=0; i<ARRAY_SIZE; i++)
+{
+	p[i]=i;
+}
+
+#ifndef NDEBUG
+for (i=0; i<PARTIAL_SIZE; i++)
+{
+	printf("function1(): %s = %d,%s = %d ", PR(i),i,PR(p[i]), p[i]);
+	printf("\n");
+}
+#endif 
+
+free(p);
+}
+#include "Function2.h"
+#include "Lab12.h"
+
+void Function2()
+{
+int i = 0;
+int *p = (int *) malloc(sizeof(int) * ARRAY_SIZE);
+if (p == NULL)
+{
+	fprintf(stderr, "function2(): Error allocating p\n");
+	exit(1);
+}
+
+printf("In function2()...\n");
+
+for (i=0; i<ARRAY_SIZE; i++)
+{
+	p[i]=i;
+}
+
+#ifndef NDEBUG
+for (i=0; i<PARTIAL_SIZE; i++)
+{
+	printf("function2(): %s = %d,%s = %d ", PR(i),i,PR(p[i]), p[i]);
+	printf("\n");
+}
+#endif 
+
+free(p);\
+}
+#include "Function3.h"
+#include "Lab12.h"
+
+
+void Function3()
+{
+int i = 0;
+int *p = (int *) malloc(sizeof(int) * ARRAY_SIZE);
+if (p == NULL)
+{
+	fprintf(stderr, "function3(): Error allocating p\n");
+	exit(1);
+}
+
+printf("In function3()...\n");
+
+for (i=0; i<ARRAY_SIZE; i++)
+{
+	p[i]=i;
+}
+
+#ifndef NDEBUG
+for (i=0; i<PARTIAL_SIZE; i++)
+{
+	printf("function3(): %s = %d,%s = %d ", PR(i),i,PR(p[i]), p[i]);
+	printf("\n");
+}
+#endif 
+
+free(p);
+}
+#include "Function4.h"
+#include "Lab12.h"
+
+
+void Function4(){
+int i = 0;
+int *p = (int *) malloc(sizeof(int) * ARRAY_SIZE);
+if (p == NULL)
+{
+	fprintf(stderr, "function4(): Error allocating p\n");
+	exit(1);
+}
+
+printf("In function4()...\n");
+
+for (i=0; i<ARRAY_SIZE; i++)
+{
+	p[i]=i;
+}
+
+#ifndef NDEBUG
+for (i=0; i<PARTIAL_SIZE; i++)
+{
+	printf("function4(): %s = %d,%s = %d ", PR(i),i,PR(p[i]), p[i]);
+	printf("\n");
+}
+#endif 
+
+free(p);
+}
+#include "Function5.h"
+#include "Lab12.h"
+
+
+void Function5()
+{
+	int i = 0;
+	int *p = (int *) malloc(sizeof(int) * ARRAY_SIZE);
+	if (p == NULL)
+	{
+		fprintf(stderr, "function5(): Error allocating p\n");
+		exit(1);
+	}
+
+	printf("In function5()...\n");
+
+	for (i=0; i<ARRAY_SIZE; i++)
+	{
+		p[i]=i;
+	}
+
+#ifndef NDEBUG
+	for (i=0; i<PARTIAL_SIZE; i++)
+	{
+		printf("function5(): %s = %d,%s = %d ", PR(i),i,PR(p[i]), p[i]);
+		printf("\n");
+	}
+#endif 
+
+	free(p);
+}
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "Lab12.h"
+#include "Function1.h"
+#include "Function2.h"
+#include "Function3.h"
+#include "Function4.h"
+#include "Function5.h"
+
+int main(int argc, char **argv)
+{
+    Function1();
+    Function2();
+    Function3();
+    Function4();
+    Function5();
+}
+bash-4.1$ cd ..
+bash-4.1$ ls
+bin  Gustavo12.txt  include  Makefile  obj  src
+bash-4.1$ c[Kcd include
+bash-4.1$ ls
+Function1.h  Function3.h  Function5.h
+Function2.h  Function4.h  Lab12.h
+bash-4.1$ cat Fuctnio[K[K[K[K[Knction1.h Function2.h Function3.[K[K/[K.3[K[K.[Ke[K3.h Function4. h Fucntion[K[K[K[K[K[Knction5.h Funct[K[K[K[K[KLab12.h
+#ifndef FUNCTION1_H
+#define FUNCTION1_H
+#endif
+
+void Function1();
+#ifndef FUNCTION2_H
+#define FUNCTION2_H
+#endif
+
+void Function2();
+#ifndef FUNCTION3_H
+#define FUNCTION3_H
+#endif
+
+void Function3();
+#ifndef FUNCTION4_H
+#define FUNCTION4_H
+#endif
+
+void Function4();
+#ifndef FUNCTION5_H
+#define FUNCTION5_H
+#endif
+
+void Function5();
+#include <stdlib.h>
+#include <stdio.h>
+#ifndef LAB12_H
+#define LAB12_H
+
+#define ARRAY_SIZE (100)
+
+#ifndef NDEBUG
+#define PARTIAL_SIZE (10)
+#endif
+
+#define PR(x)	#x
+
+#endif
+bash-4.1$ ls
+Function1.h  Function3.h  Function5.h
+Function2.h  Function4.h  Lab12.h
+bash-4.1$ cd ..
+bash-4.1$ make clean
+rm -f ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ make
+gcc -W -O3 -I./include  -c src/Lab12.c -o obj/Lab12.o
+gcc -W -O3 -I./include  -c src/Function1.c -o obj/Function1.o
+gcc -W -O3 -I./include  -c src/Function2.c -o obj/Function2.o
+gcc -W -O3 -I./include  -c src/Function3.c -o obj/Function3.o
+gcc -W -O3 -I./include  -c src/Function4.c -o obj/Function4.o
+gcc -W -O3 -I./include  -c src/Function5.c -o obj/Function5.o
+gcc -W -O3 -I./include  -o bin/Lab12 ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ cd bin
+bash-4.1$ ./Lab12
+In function1()...
+function1(): i = 0,p[i] = 0 
+function1(): i = 1,p[i] = 1 
+function1(): i = 2,p[i] = 2 
+function1(): i = 3,p[i] = 3 
+function1(): i = 4,p[i] = 4 
+function1(): i = 5,p[i] = 5 
+function1(): i = 6,p[i] = 6 
+function1(): i = 7,p[i] = 7 
+function1(): i = 8,p[i] = 8 
+function1(): i = 9,p[i] = 9 
+In function2()...
+function2(): i = 0,p[i] = 0 
+function2(): i = 1,p[i] = 1 
+function2(): i = 2,p[i] = 2 
+function2(): i = 3,p[i] = 3 
+function2(): i = 4,p[i] = 4 
+function2(): i = 5,p[i] = 5 
+function2(): i = 6,p[i] = 6 
+function2(): i = 7,p[i] = 7 
+function2(): i = 8,p[i] = 8 
+function2(): i = 9,p[i] = 9 
+In function3()...
+function3(): i = 0,p[i] = 0 
+function3(): i = 1,p[i] = 1 
+function3(): i = 2,p[i] = 2 
+function3(): i = 3,p[i] = 3 
+function3(): i = 4,p[i] = 4 
+function3(): i = 5,p[i] = 5 
+function3(): i = 6,p[i] = 6 
+function3(): i = 7,p[i] = 7 
+function3(): i = 8,p[i] = 8 
+function3(): i = 9,p[i] = 9 
+In function4()...
+function4(): i = 0,p[i] = 0 
+function4(): i = 1,p[i] = 1 
+function4(): i = 2,p[i] = 2 
+function4(): i = 3,p[i] = 3 
+function4(): i = 4,p[i] = 4 
+function4(): i = 5,p[i] = 5 
+function4(): i = 6,p[i] = 6 
+function4(): i = 7,p[i] = 7 
+function4(): i = 8,p[i] = 8 
+function4(): i = 9,p[i] = 9 
+In function5()...
+function5(): i = 0,p[i] = 0 
+function5(): i = 1,p[i] = 1 
+function5(): i = 2,p[i] = 2 
+function5(): i = 3,p[i] = 3 
+function5(): i = 4,p[i] = 4 
+function5(): i = 5,p[i] = 5 
+function5(): i = 6,p[i] = 6 
+function5(): i = 7,p[i] = 7 
+function5(): i = 8,p[i] = 8 
+function5(): i = 9,p[i] = 9 
+bash-4.1$ cd [K[K[Kls
+Lab12
+bash-4.1$ cd ..
+bash-4.1$ ls
+bin  Gustavo12.txt  include  Makefile  obj  src
+bash-4.1$ cd in[K[KM[K[K[K[Kvim Makefile
+[?1049h[?1h=[1;49r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[49;1H"Makefile" 64L, 2195C[>c[1;1H[34m#------------------------------------------------------------[2;1H------------------
+# Choose a compiler & its options
+#------------------------------------------------------------[5;1H---------------[m
+
+[36mCC   [m= gcc
+[36mOPTS [m= -W -O3
+
+[34m#------------------------------------------------------------[11;1H---------------
+# Add the debug flag (based on the #ifndef in the source fill[13;1Hes)
+#------------------------------------------------------------[15;1H---------------
+#DEBUG=-DNDEBUG
+
+#------------------------------------------------------------[19;1H---------------
+# Add the names of the directories
+#------------------------------------------------------------[22;1H---------------[m
+[36mSRCDIR[m=./src
+[36mOBJDIR[m=./obj
+[36mINCDIR[m=./include
+[36mBINDIR[m=./bin
+
+[34m#------------------------------------------------------------[29;1H---------
+# Add the rest of the source files. Don't forget to add the  [31;1H'\' character
+# to continue the line. You don't need it after the last souu[33;1Hrce file
+#------------------------------------------------------------[35;1H---------[m
+[36mSRCS[m=[36m$(SRCDIR)[m/Lab12.c [35m\
+     [m[36m$(SRCDIR)[m/Function1.c [35m\
+     [m[36m$(SRCDIR)[m/Function2.c [35m\
+     [m[36m$(SRCDIR)[m/Function3.c [35m\
+     [m[36m$(SRCDIR)[m/Function4.c [35m\
+     [m[36m$(SRCDIR)[m/Function5.c
+[34m#------------------------------------------------------------[43;1H---------
+# You don't need to edit the next few lines. They define othh[45;1Her flags
+# used in the compilation of the source code
+#------------------------------------------------------------[48;1H---------[m[49;43H11,1[10CTop[16;1H[?12l[?25h[?25l[36mDEBUG[m=-DNDEBUG[16;15H[K[16;1H[?12l[?25h[?25l[49;1H[K[49;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"Makefile" 64L, 2194C written
+[?1l>[?12l[?25h[?1049lbash-4.1$ make clean[K[Kan
+rm -f ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ make
+gcc -W -O3 -I./include -DNDEBUG -c src/Lab12.c -o obj/Lab12.o
+gcc -W -O3 -I./include -DNDEBUG -c src/Function1.c -o obj/Function1.o
+gcc -W -O3 -I./include -DNDEBUG -c src/Function2.c -o obj/Function2.o
+gcc -W -O3 -I./include -DNDEBUG -c src/Function3.c -o obj/Function3.o
+gcc -W -O3 -I./include -DNDEBUG -c src/Function4.c -o obj/Function4.o
+gcc -W -O3 -I./include -DNDEBUG -c src/Function5.c -o obj/Function5.o
+gcc -W -O3 -I./include -DNDEBUG -o bin/Lab12 ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ cd bin
+bash-4.1$ ./La12
+bash: ./La12: No such file or directory
+bash-4.1$ ls
+Lab12
+bash-4.1$ cd ./Lab12
+bash: cd: ./Lab12: Not a directory
+bash-4.1$ ls
+Lab12
+bash-4.1$ pqd[K[Kwd
+/home/granz/lab12/bin
+bash-4.1$ ./[K[Kls
+Lab12
+bash-4.1$ ./Lab12
+In function1()...
+In function2()...
+In function3()...
+In function4()...
+In function5()...
+bash-4.1$ cd ..[K[K[K[K[Kcd ..
+bash-4.1$ gcc -E Function1.c -I../include | tail -20
+gcc: Function1.c: No such file or directory
+gcc: no input files
+bash-4.1$ cd src
+bash-4.1$ gcc -E Function1.c -I../include | tail -20
+ exit(1);
+}
+
+printf("In function1()...\n");
+
+for (i=0; i<(100); i++)
+{
+ p[i]=i;
+}
+
+
+for (i=0; i<(10); i++)
+{
+ printf("function1(): %s = %d,%s = %d ", "i",i,"p[i]", p[i]);
+ printf("\n");
+}
+
+
+free(p);
+}
+bash-4.1$ gcc -E Function1.c -I../include | tail -20[C[1@ [1@-[1@D[1@N[1@D[1@E[1@BU | tail -20 [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CG | tail -200[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+
+
+void Function1()
+{
+int i = 0;
+int *p = (int *) malloc(sizeof(int) * (100));
+if (p == ((void *)0))
+{
+ fprintf(stderr, "function1(): Error allocating p\n");
+ exit(1);
+}
+
+printf("In function1()...\n");
+
+for (i=0; i<(100); i++)
+{
+ p[i]=i;
+}
+# 29 "Function1.c"
+free(p);
+}
+bash-4.1$ gcc -E Function1.c -I../include -DNDEBUG | tail -200[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[8P| tail -20
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccd src[Kgcc -E Function1.c -I../include | tail -20[C[C[C[C[C[C[C[C[C[Ccd src[K[K[K[K[K[K[KLS
+bash: LS: command not found
+bash-4.1$ ls
+Function1.c  Function3.c  Function5.c
+Function2.c  Function4.c  Lab12.c
+bash-4.1$ cd ..
+bash-4.1$ clean
+bash: clean: command not found
+bash-4.1$ make clean
+rm -f ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ make cleanall
+rm -f ./obj/*.o ./bin/Lab12
+bash-4.1$ make clean
+rm -f ./obj/Lab12.o ./obj/Function1.o ./obj/Function2.o ./obj/Function3.o ./obj/Function4.o ./obj/Function5.o
+bash-4.1$ exit
+
+Script done on Mon 17 Nov 2014 09:46:32 AM EST
